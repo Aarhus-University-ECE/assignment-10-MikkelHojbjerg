@@ -1,6 +1,7 @@
 #include <assert.h> /* assert */
 #include <stdio.h>  /* printf */
 #include <stdlib.h> /* malloc, free */
+#include <math.h>   /* pow */
 
 #include "linked_list.h"
 
@@ -24,14 +25,34 @@ void free_list(node *p) {
 
 /* print list to console */
 void print_list(node *p) {
-  // Add your code for exercise 1
-  // There is NO testcode for this
+
+	while(p->next != NULL){
+		printf("Data: %d\n", p->value);
+		p = p->next;
+	}
+
+	printf("Data: %d\n", p->next->value);
+
 }
 
 int sum_squares(node *p) {
-  // Add your code for excercise 2
-  // You can find the tests in tests.cpp
-  return -1;
+
+	int sum;
+
+	if(p == NULL){
+		return 0;
+	}
+
+	if(p->next == NULL){
+		return pow(p->value, 2);
+	}else{
+		printf("val: %d\n", p->value);
+
+		sum = pow(p->value,2) + sum_squares(p->next);
+
+		printf("sum: %d\n", sum);
+		return sum;
+	}
 }
 
 typedef int (*fn_int_to_int)(int);
