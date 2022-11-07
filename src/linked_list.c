@@ -39,28 +39,42 @@ int sum_squares(node *p) {
 
 	int sum;
 
+	//Hvis p er NULL, er der ingen værdier og der kan returnes 0
 	if(p == NULL){
 		return 0;
 	}
 
+	//Hvis p->next == NULL, er p den sidste list og kan derfor returnes på følgende måde
 	if(p->next == NULL){
 		return pow(p->value, 2);
 	}else{
-		printf("val: %d\n", p->value);
-
+		//Hvis ikke bliver sum_squares kørt igen med p->next
 		sum = pow(p->value,2) + sum_squares(p->next);
-
-		printf("sum: %d\n", sum);
 		return sum;
 	}
 }
 
 typedef int (*fn_int_to_int)(int);
 
-node *map(node *p, fn_int_to_int f) { 
+node *map(node *p, fn_int_to_int f) {
   // Add your code for excercise 3
-  
-  return NULL; 
+
+	//Alloker plads til en temp node, da den skal bruges til at lave en ny liste
+	node *temp = (malloc(sizeof(node)));
+
+	//Hvis p->next er NULL, skal der ikke er listen kørt igennem
+	if(p->next == NULL){
+		temp->value = square(p->value);
+		temp->next = NULL;
+		return temp;
+	}
+
+	//map kører igennem med p->next
+	temp->next = map(p->next, f);
+	//f får værdien af p-> value
+	temp->value = f(p->value);
+
+	return temp;
 }
 
 int square(int x) { return x * x; }
