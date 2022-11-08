@@ -5,42 +5,55 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct tree_node *Insert(int x, struct tree_node *t) {
+void placeItem(int x, struct tree_node *t){
 
-	t = (malloc(sizeof(tree_node)));
-	t->left = (malloc(sizeof(tree_node)));
-	t->right = (malloc(sizeof(tree_node)));
 
 	if(t == NULL){
+		t = (malloc(sizeof(struct tree_node)));
 		t->item = x;
+		t->left = NULL;
+		t->right = NULL;
 	}
 
-	printf("Root: %d\n", t->item);
-	sleep(2);
+	if(t->left == NULL && t->right == NULL){
 
-	if(x <= t->item && t->left == NULL){
-		t->left->item = x;
+		if(x <= t->item){
+			t->left = (malloc(sizeof(struct tree_node)));
+			t->left->item = x;
 
-		printf("left: %d\n",t->left->item);
-		sleep(2);
+			printf("left: %d\n",t->left->item);
+			t->left->left = NULL;
+			t->left->right = NULL;
+		}else if(x > t->item){
+			t->right = (malloc(sizeof(struct tree_node)));
+			t->right->item = x;
 
-		t->left->left = NULL;
-		t->left->right = NULL;
-	}else{
-		Insert(x, t->left);
+			printf("right: %d\n", t->right->item);
+			t->right->left = NULL;
+			t->right->right = NULL;
+
+		}
+	}else if(t->left != NULL && x <= t->item){
+		placeItem(x, t->left);
+	}else if(t->right != NULL && x > t->item){
+		placeItem(x, t->right);
+	}
+}
+
+struct tree_node *Insert(int x, struct tree_node *t) {
+
+	if(t == NULL){
+		t = (malloc(sizeof(struct tree_node)));
+		t->item = x;
+		t->left = NULL;
+		t->right = NULL;
+		printf("Root: %d\n", t->item);
+		return t;
 	}
 
-	if(x > t->item && t->right == NULL){
-		t->right->item = x;
+		placeItem(x, t);
 
-		printf("right: %d\n", t->right->item);
-		sleep(2);
-
-		t->right->left = NULL;
-		t->right->right = NULL;
-	}else{
-		Insert(x, t->right);
-	}
+	return t;
 
 }
 
@@ -52,21 +65,24 @@ struct tree_node *Remove(int x, struct tree_node *t) {
 
 int Contains(int x, struct tree_node *t) {
 
-  // Return true if the tree t contains item x. Return false otherwise.
+	if(x == t->item){
+		printf("x = %d, item = %d\n", x, t->item);
+		return true;
+	}else if(x <= t->item && t->left != NULL){
+		printf("x is t->left\n");
+		Contains(x, t->left);
+	}else if(x > t->item && t->right != NULL){
+		printf("x is t->right\n");
+		Contains(x, t->right);
+	}else{
+		return false;
+	}
 
-  return 0;
 }
 
 struct tree_node *Initialize(struct tree_node *t) {
 
-	//Alloker plads til hele lortet
-	t = (malloc(sizeof(tree_node)));
-	t->left = (malloc(sizeof(tree_node)));
-	t->right = (malloc(sizeof(tree_node)));
-
-	t->left = NULL;
-	t->right = NULL;
-	t->item = 0;
+	t = NULL;
 
 }
 

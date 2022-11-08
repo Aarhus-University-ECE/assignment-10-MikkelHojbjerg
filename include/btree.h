@@ -3,8 +3,8 @@
 
 struct tree_node {
   int item;
-  struct tnode *left;
-  struct tnode *right;
+  struct tree_node *left;
+  struct tree_node *right;
 };
 
 int Empty(struct tree_node *t);
