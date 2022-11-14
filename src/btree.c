@@ -75,31 +75,29 @@ struct tree_node *Insert(int x, struct tree_node *t) {
 
 struct tree_node *Remove(int x, struct tree_node *t) {
 
+	struct tree_node *temp = t;
 
-	if(t->item == x && t->left == NULL && t->right == NULL){
-		free(t);
-
+	if(temp->item == x && temp->left == NULL && temp->right == NULL){
+		free(temp);
 		printf("t->item blev fjernet\n");
-
-	}else if(x <= t->item && t->left != NULL){
+		return true;
+	}else if(x <= temp->item && temp->left != NULL){
 		Remove(x, t->left);
-	}else if(x > t->item && t->right != NULL){
+	}else if(x > temp->item && temp->right != NULL){
 		Remove(x, t->right);
 	}else{
-
 		printf("Tallet er ikke i træet\n");
 		return true;
 	}
 
-	return NULL;
 }
 
 int Contains(int x, struct tree_node *t) {
 
+	printf("x: %d, item: %d\n", x, t->item);
+
 	if(x == t->item){
-
 		printf("Træet indeholder %d\n", x);
-
 		return true;
 	}else if(x <= t->item && t->left != NULL){
 		Contains(x, t->left);
@@ -122,9 +120,6 @@ struct tree_node *Initialize(struct tree_node *t) {
 int Empty(struct tree_node *t) {
 
 	if(t == NULL){
-
-		printf("\nNYT TRÆ\n\n");
-
 		return true;
 	}else{
 		return false;
